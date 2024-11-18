@@ -48,12 +48,14 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 토큰에서 username 획득
+        // 토큰에서 username, nickname 획득
         String username = jwtUtil.getUsername(token);
+        String nickname = jwtUtil.getNickname(token);
 
         // Member 엔티티 생성하여 값 set
         Member member = new Member();
         member.setUsername(username);
+        member.setNickname(nickname);
         member.setPassword("temppassword"); // 임의의 값(DB 조회 방지)
 
         // UserDetails에 회원 정보 객체 담기
