@@ -25,7 +25,11 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List> getBookList(){
-        List<BookListItemDTO> bookList = bookService.getBookList();
+        // 로그인한 사용자 username 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        List<BookListItemDTO> bookList = bookService.getBookList(username);
         return ResponseEntity.ok(bookList);
     }
 

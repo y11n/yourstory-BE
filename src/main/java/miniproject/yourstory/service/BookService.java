@@ -9,10 +9,8 @@ import miniproject.yourstory.repository.BookRepository;
 import miniproject.yourstory.repository.LetterRepository;
 import miniproject.yourstory.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +30,7 @@ public class BookService {
     }
 
     // 도서 목록 조회
-    public List<BookListItemDTO> getBookList(){
+    public List<BookListItemDTO> getBookList(String username){
         return bookRepository.findAll().stream()
                 .map(book -> {
                     try{
@@ -40,6 +38,7 @@ public class BookService {
                                 book.getId(),
                                 book.getAddressee(),
                                 book.getTitle(),
+                                ((likeRepository.findByBookIdAndMemberUsername(book.getId(), username) != null) ? true : false),
                                 book.getLikesCount(),
                                 book.getLettersCount(),
                                 (serverUrl + "/files/" + book.getImgPath())
