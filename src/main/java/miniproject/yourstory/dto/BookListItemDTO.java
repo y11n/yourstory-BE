@@ -19,6 +19,7 @@ public class BookListItemDTO {
         this.addressee = addressee;
         this.title = title;
         this.likes = likes;
+        this.letters = letters;
         this.imgPath = imgPath;
     }
 }
