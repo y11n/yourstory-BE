@@ -41,4 +41,18 @@ public class LetterController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("편지가 생성 완료 되었습니다.");
     }
+
+    @DeleteMapping("/{letter_id}")
+    public ResponseEntity<String> deleteLetter(@PathVariable long letter_id) {
+        // 로그인한 사용자 username 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        try{
+            letterService.delete(letter_id, username);
+            return ResponseEntity.status(HttpStatus.OK).body("편지가 삭제되었습니다.");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

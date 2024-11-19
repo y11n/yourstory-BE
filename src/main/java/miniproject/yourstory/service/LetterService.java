@@ -55,4 +55,15 @@ public class LetterService {
                 ))
                 .collect(Collectors.toList());
     }
+
+    // 편지 삭제 메소드
+    public void delete(long letterId, String username) throws Exception{
+        Letter letter = letterRepository.findById(letterId);
+
+        // 로그인한 유저가 생성한 편지가 아닐 때
+        if(!letter.getMember().getUsername().equals(username)) {
+            throw new Exception("현재 사용자가 생성한 편지가 아닙니다.");
+        }
+        letterRepository.delete(letter);
+    }
 }

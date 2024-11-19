@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface LetterRepository extends JpaRepository<Letter, Long> {
     List<Letter> findByBookId(Long bookId);
+    Letter findById(long id);
 }
