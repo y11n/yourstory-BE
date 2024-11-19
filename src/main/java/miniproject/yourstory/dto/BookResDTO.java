@@ -19,7 +19,7 @@ public class BookResDTO {
     private String title;
     @JsonProperty("isLike")
     private boolean isLike;
-    private int liked;
+    private int likes;
     private String writer;
     private String org;
     private String intro;
