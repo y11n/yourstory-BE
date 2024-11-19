@@ -17,7 +17,6 @@ public class Letter {
     private Member member;
 
     @ManyToOne
-    @JoinColumn
     private Book book;
 
     private String title;

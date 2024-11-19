@@ -18,4 +18,5 @@ public class Likes {
 
     @ManyToOne
     private Book book;
+
 }

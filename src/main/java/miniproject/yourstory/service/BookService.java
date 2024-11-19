@@ -29,7 +29,7 @@ public class BookService {
                                 book.getId(),
                                 book.getAddressee(),
                                 book.getTitle(),
-                                book.getLikes(),
+                                book.getLikesCount(),
                                 book.getLetters(),
                                 (serverUrl + "/files/" + book.getImgPath())
                         );

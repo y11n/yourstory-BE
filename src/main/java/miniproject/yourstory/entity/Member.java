@@ -3,12 +3,8 @@ package miniproject.yourstory.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Getter
@@ -23,7 +19,4 @@ public class Member {
     private String password;
 
     private String nickname;
-
-    @OneToMany(mappedBy = "member")
-    private List<Letter> letters = new ArrayList<>();
 }

@@ -1,11 +1,11 @@
 package miniproject.yourstory.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,12 +26,17 @@ public class Book {
 
     private String intro;
 
-    private int likes;
+    @OneToMany(mappedBy = "book")
+    private List<Likes> likes = new ArrayList<>();
 
     private int letters;
 
     private String imgPath;
 
     private String pdfPath;
+
+    public int getLikesCount(){
+        return likes.size();
+    }
 
 }
