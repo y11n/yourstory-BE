@@ -30,7 +30,7 @@ public class BookService {
                                 book.getAddressee(),
                                 book.getTitle(),
                                 book.getLikesCount(),
-                                book.getLetters(),
+                                book.getLettersCount(),
                                 (serverUrl + "/files/" + book.getImgPath())
                         );
                     } catch (Exception e) {

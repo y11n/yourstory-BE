@@ -29,7 +29,8 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<Likes> likes = new ArrayList<>();
 
-    private int letters;
+    @OneToMany(mappedBy = "book")
+    private List<Letter> letters = new ArrayList<>();
 
     private String imgPath;
 
@@ -37,6 +38,10 @@ public class Book {
 
     public int getLikesCount(){
         return likes.size();
+    }
+
+    public int getLettersCount(){
+        return letters.size();
     }
 
 }
