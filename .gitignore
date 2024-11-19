@@ -39,3 +39,4 @@ out/
 ### application ###
 application.properties
 application.yml
+src/main/resources/
