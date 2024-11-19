@@ -1,12 +1,15 @@
 package miniproject.yourstory.controller;
 
 import miniproject.yourstory.dto.LetterReqDTO;
+import miniproject.yourstory.dto.LetterResDTO;
 import miniproject.yourstory.service.LetterService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/letter")
@@ -16,6 +19,16 @@ public class LetterController {
 
     public LetterController(LetterService letterService) {
         this.letterService = letterService;
+    }
+
+    @GetMapping("/{book_id}")
+    public ResponseEntity<List<LetterResDTO>> getLetters(@PathVariable long book_id) {
+        // 로그인한 사용자 username 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        List<LetterResDTO> letters = letterService.getLetters(book_id, username);
+        return ResponseEntity.status(HttpStatus.OK).body(letters);
     }
 
     @PostMapping("/{book_id}")
