@@ -44,4 +44,11 @@ public class BookController {
         return ResponseEntity.ok(book);
     }
 
+    // pdf 조회
+    @GetMapping("/pdf/{book_id}")
+    public ResponseEntity<String> getPdf(@PathVariable long book_id){
+        String pdf_path = bookService.getPdf(book_id);
+        return ResponseEntity.ok(pdf_path);
+    }
+
 }

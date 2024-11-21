@@ -77,4 +77,9 @@ public class BookService {
                 letterBox
         );
     }
+
+    public String getPdf(long bookId) {
+        Book book = bookRepository.findById(bookId);
+        return serverUrl + "/files/" + book.getPdfPath();
+    }
 }
