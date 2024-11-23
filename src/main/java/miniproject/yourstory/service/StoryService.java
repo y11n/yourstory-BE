@@ -1,6 +1,8 @@
 package miniproject.yourstory.service;
 
 import miniproject.yourstory.dto.StoryListItemDTO;
+import miniproject.yourstory.dto.StoryResDTO;
+import miniproject.yourstory.entity.Story;
 import miniproject.yourstory.repository.StoryRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,5 +36,18 @@ public class StoryService {
                 })
                 .collect(Collectors.toList());
     };
+
+    // 이야기 상세 조회
+    public StoryResDTO getStory(int storyId) {
+        Story story = storyRepository.findById(storyId);
+        return new StoryResDTO(
+                story.getId(),
+                story.getCategory(),
+                story.getTitle(),
+                (serverUrl + "/files/" + story.getImg()),
+                story.getPrologue(),
+                story.getContent()
+        );
+    }
 
 }
