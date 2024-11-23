@@ -55,8 +55,11 @@ public class WorkController {
 
     // 지역/모집 상태/요일 필터링
     @GetMapping("/list")
-    public ResponseEntity<List<WorkDto>> filterWorkList(@RequestParam(required = false) String sort) {
-        List<Work> works = workService.filterWorkList(sort);
+    public ResponseEntity<List<WorkDto>> filterWorkList(@RequestParam(required = false) String sort,
+                                                        @RequestParam(required = false) String dayOfWeek,
+                                                        @RequestParam(required = false) String regions,
+                                                        @RequestParam(required = false) String recruitmentStatus) {
+        List<Work> works = workService.filterWorkList(dayOfWeek, regions, recruitmentStatus);
         List<WorkDto> workDTOs = works.stream().map(WorkDto::fromEntity).collect(Collectors.toList());
         return ResponseEntity.ok(workDTOs);
     }

@@ -59,16 +59,8 @@ public class WorkService {
     }
 
     // 지역/모집 상태/요일 필터링
-    public List<Work> filterWorkList(String sort) {
-        switch (sort) {
-            case "region":
-                return workRepository.findAllByOrderByOrg(); // 지역 기준 정렬
-            case "recruitmentStatus":
-                return workRepository.findAllByOrderByState(); // 모집 상태 정렬
-            case "dayOfWeek":
-                return workRepository.findAllByOrderByDay(); // 요일 정렬
-            default:
-                return workRepository.findAll(); // 기본 정렬
-        }
+    public List<Work> filterWorkList(String dayOfWeek, String regions, String recruitmentStatus) {
+        return workRepository.filterWorkByConditions(dayOfWeek, regions, recruitmentStatus);
     }
+
 }
