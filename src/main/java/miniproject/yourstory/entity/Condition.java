@@ -24,4 +24,5 @@ public class Condition {
 
     private int period; // 시작 후 기간
 
+
 }
