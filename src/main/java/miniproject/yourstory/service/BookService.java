@@ -33,8 +33,7 @@ public class BookService {
     public List<BookListItemDTO> getBookList(String username){
         return bookRepository.findAll().stream()
                 .map(book -> {
-                    try{
-                        return new BookListItemDTO(
+                    return new BookListItemDTO(
                                 book.getId(),
                                 book.getAddressee(),
                                 book.getTitle(),
@@ -43,9 +42,6 @@ public class BookService {
                                 book.getLettersCount(),
                                 (serverUrl + "/files/" + book.getImgPath())
                         );
-                    } catch (Exception e) {
-                        throw new RuntimeException("Invalid file path: " + book.getImgPath(), e);
-                    }
                 })
                 .collect(Collectors.toList());
     }
