@@ -22,6 +22,7 @@ public class WorkRecord {
 
     private LocalDate date;
 
+    @Lob
     private String content;
 
 }
