@@ -1,9 +1,11 @@
 package miniproject.yourstory.config;
 
 import jakarta.servlet.http.HttpServletRequest;
+import miniproject.yourstory.config.filter.CustomLogoutFilter;
 import miniproject.yourstory.config.filter.JWTFilter;
 import miniproject.yourstory.config.filter.LoginFilter;
 import miniproject.yourstory.config.jwt.JWTUtil;
+import miniproject.yourstory.repository.RefreshRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -25,10 +28,12 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
+    private final RefreshRepository refreshRepository;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil, RefreshRepository refreshRepository) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.jwtUtil = jwtUtil;
+        this.refreshRepository = refreshRepository;
     }
 
     @Bean
@@ -74,6 +79,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests((auth) -> auth
                         .requestMatchers("/login", "/", "/join", "/files/**").permitAll()
+                        .requestMatchers("/reissue").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
         // JWTFilter 등록
@@ -81,7 +87,10 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         // 로그인 필터 등록
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository), UsernamePasswordAuthenticationFilter.class);
+        // 로그아웃 필터 등록
+        http
+                .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
 
         // 세션 설정(stateless)
         http
