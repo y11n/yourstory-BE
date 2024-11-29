@@ -21,6 +21,8 @@ public class WorkDto {
     private String org;
     private String day;
     private String place;
+    private String manager;
+    private String content;
     private int person;
 
     // Work 엔티티를 WorkDTO로 변환하는 메서드
@@ -35,6 +37,8 @@ public class WorkDto {
                 work.getOrg(),
                 work.getDay(),
                 work.getPlace(),
+                work.getManager(),
+                work.getContent(),
                 work.getPerson()
         );
     }
