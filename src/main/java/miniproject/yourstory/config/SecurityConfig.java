@@ -74,6 +74,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests((auth) -> auth
                         .requestMatchers("/login", "/", "/join", "/files/**").permitAll()
+                        .requestMatchers("/reissue").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
         // JWTFilter 등록
