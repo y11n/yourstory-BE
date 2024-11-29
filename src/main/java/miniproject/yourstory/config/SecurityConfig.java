@@ -1,6 +1,7 @@
 package miniproject.yourstory.config;
 
 import jakarta.servlet.http.HttpServletRequest;
+import miniproject.yourstory.config.filter.CustomLogoutFilter;
 import miniproject.yourstory.config.filter.JWTFilter;
 import miniproject.yourstory.config.filter.LoginFilter;
 import miniproject.yourstory.config.jwt.JWTUtil;
@@ -15,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -86,6 +88,9 @@ public class SecurityConfig {
         // 로그인 필터 등록
         http
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository), UsernamePasswordAuthenticationFilter.class);
+        // 로그아웃 필터 등록
+        http
+                .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
 
         // 세션 설정(stateless)
         http
