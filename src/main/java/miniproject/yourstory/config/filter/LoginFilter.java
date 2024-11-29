@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import miniproject.yourstory.config.jwt.JWTUtil;
 import miniproject.yourstory.dto.CustomUserDetails;
 import miniproject.yourstory.dto.LoginDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -57,12 +59,19 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
 
+        // 유저 정보
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         String username = customUserDetails.getUsername();
         String nickname = customUserDetails.getNickname();
 
-        String token = jwtUtil.createJwt(username, nickname,60*60*1000L);
-        response.addHeader("Authorization", "Bearer " + token);
+        // 토큰 생성
+        String access = jwtUtil.createJwt("access", username, nickname,600000L);
+        String refresh = jwtUtil.createJwt("refresh", username, nickname, 86400000L);
+
+        // 응답 설정
+        response.setHeader("access", access);
+        response.addCookie(createCookie("refresh", refresh));
+        response.setStatus(HttpStatus.OK.value());
     }
 
     // 로그인 실패 시 메소드
@@ -70,6 +79,16 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) {
         response.setStatus(401);
+    }
+
+    private Cookie createCookie(String key, String value){
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(24 * 60 * 60); // 쿠키 생명주기
+//        cookie.setSecure(true); // https 통신 시에 사용
+//        cookie.setPath("/"); // 쿠키가 적용될 범위
+        cookie.setHttpOnly(true);
+
+        return cookie;
     }
 
 }

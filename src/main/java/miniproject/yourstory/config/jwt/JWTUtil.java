@@ -29,14 +29,19 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("nickname",String.class);
     }
 
+    public String getCategory(String token){
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("category",String.class);
+    }
+
     public Boolean isExpired(String token) {
         // 현재 시간과 비교
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
     // 토큰 생성 메소드
-    public String createJwt(String username, String nickname, Long expiredMs){
+    public String createJwt(String category, String username, String nickname, Long expiredMs){
         return Jwts.builder()
+                .claim("category", category)
                 .claim("username", username)
                 .claim("nickname", nickname)
                 .issuedAt(new Date(System.currentTimeMillis())) // 토큰 발행시각
