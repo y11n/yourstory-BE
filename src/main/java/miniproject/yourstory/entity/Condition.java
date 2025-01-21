@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Table(name = "volunteer_condition")
 @Getter
@@ -14,11 +16,11 @@ public class Condition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // PK
 
-    @ManyToOne // Member 엔티티와 관계 설정
+    @ManyToOne(fetch = LAZY) // Member 엔티티와 관계 설정
     @JoinColumn(name = "member_username", referencedColumnName = "username") // 외래키로 username 사용
     private Member member; // Member 참조
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "work_id", nullable = false) // FK - 봉사활동 ID
     private Work work;
 
