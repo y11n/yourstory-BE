@@ -28,6 +28,9 @@ public class Work {
 
     private int period; // 봉사 기간
 
+    @Embedded
+    private Period recruitmentPeriod;
+
     private String org; // 등록 기관
 
     private String day; // 봉사 요일
@@ -41,6 +44,9 @@ public class Work {
     private LocalTime startTime; // 봉사 시간 시작
 
     private LocalTime endTime; // 봉사 시간 끝
+
+    @Embedded
+    private Time time;
 
     private String content; // 내용
 
