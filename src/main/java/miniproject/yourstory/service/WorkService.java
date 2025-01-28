@@ -1,8 +1,10 @@
 package miniproject.yourstory.service;
 
 import lombok.RequiredArgsConstructor;
+import miniproject.yourstory.dto.WorkListDTO;
 import miniproject.yourstory.entity.Condition;
 import miniproject.yourstory.entity.Member;
+import miniproject.yourstory.entity.Period;
 import miniproject.yourstory.entity.Work;
 import miniproject.yourstory.repository.ConditionRepository;
 import miniproject.yourstory.repository.MemberRepository;
@@ -10,6 +12,7 @@ import miniproject.yourstory.repository.WorkRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +23,21 @@ public class WorkService {
     private final MemberRepository memberRepository;
 
     // 봉사 목록 조회
-    public List<Work> getWorkList() {
-        return workRepository.findAll();
+    public List<WorkListDTO> getWorkList() {
+        // 개월 수 계산
+        return workRepository.findAll().stream()
+                .map(work -> {
+                    Period period = work.getRecruitmentPeriod();
+                    return new WorkListDTO(
+                            work.getId(),
+                            work.getTitle(),
+                            work.getState(),
+                            period,
+                            period.months(),
+                            work.getOrg(),
+                            work.getDay()
+                    );
+                }).collect(Collectors.toList());
     }
 
     // 봉사 상세 조회

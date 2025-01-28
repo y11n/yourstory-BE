@@ -3,6 +3,7 @@ package miniproject.yourstory.controller;
 import lombok.RequiredArgsConstructor;
 import miniproject.yourstory.dto.ConditionDto;
 import miniproject.yourstory.dto.WorkDto;
+import miniproject.yourstory.dto.WorkListDTO;
 import miniproject.yourstory.entity.Condition;
 import miniproject.yourstory.entity.Work;
 import miniproject.yourstory.service.WorkService;
@@ -19,12 +20,15 @@ public class WorkController {
 
     private final WorkService workService;
 
+
     // 봉사 목록 조회
     @GetMapping
-    public ResponseEntity<List<WorkDto>> getWorkList() {
-        List<Work> works = workService.getWorkList();
-        List<WorkDto> workDTOs = works.stream().map(WorkDto::fromEntity).collect(Collectors.toList());
-        return ResponseEntity.ok(workDTOs);
+    public ResponseEntity<List<WorkListDTO>> getWorkList() {
+//        List<Work> works = workService.getWorkList();
+//        List<WorkDto> workDTOs = works.stream().map(WorkDto::fromEntity).collect(Collectors.toList());
+//        return ResponseEntity.ok(workDTOs);
+        List<WorkListDTO> works = workService.getWorkList();
+        return ResponseEntity.ok(works);
     }
 
     // 봉사 상세 조회
