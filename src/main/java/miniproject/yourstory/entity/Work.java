@@ -50,4 +50,6 @@ public class Work {
 
     private String content; // 내용
 
+    private String etc; // 기타사항
+
 }

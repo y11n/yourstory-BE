@@ -1,6 +1,7 @@
 package miniproject.yourstory.service;
 
 import lombok.RequiredArgsConstructor;
+import miniproject.yourstory.dto.WorkDto;
 import miniproject.yourstory.dto.WorkListDTO;
 import miniproject.yourstory.entity.Condition;
 import miniproject.yourstory.entity.Member;
@@ -41,9 +42,10 @@ public class WorkService {
     }
 
     // 봉사 상세 조회
-    public Work getWorkDetail(Long workId) {
-        return workRepository.findById(workId)
-                .orElseThrow(() -> new IllegalArgumentException("봉사 활동을 찾을 수 없습니다."));
+    public WorkDto getWorkDetail(Long workId) {
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new RuntimeException("Work not found with ID: " + workId));
+        return WorkDto.fromEntity(work);
     }
 
     // 봉사 신청
