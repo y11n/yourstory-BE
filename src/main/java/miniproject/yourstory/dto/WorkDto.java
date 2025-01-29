@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import miniproject.yourstory.entity.Period;
+import miniproject.yourstory.entity.Time;
 import miniproject.yourstory.entity.Work;
 
 @Getter
@@ -15,15 +17,16 @@ public class WorkDto {
     private Long id;
     private String title;
     private String state;
-    private String recruitmentStart;
-    private String recruitmentEnd;
-    private String period;
+    private Period recruitment;
+    private int period;
     private String org;
     private String day;
     private String place;
     private String manager;
     private String content;
     private int person;
+    private Time time;
+    private String etc;
 
     // Work 엔티티를 WorkDTO로 변환하는 메서드
     public static WorkDto fromEntity(Work work) {
@@ -31,15 +34,16 @@ public class WorkDto {
                 work.getId(),
                 work.getTitle(),
                 work.getState(),
-                work.getRecruitmentStart().toString(),
-                work.getRecruitmentEnd().toString(),
-                String.valueOf(work.getPeriod()),
+                work.getRecruitmentPeriod(),
+                work.getRecruitmentPeriod().months(),
                 work.getOrg(),
                 work.getDay(),
                 work.getPlace(),
                 work.getManager(),
                 work.getContent(),
-                work.getPerson()
+                work.getPerson(),
+                work.getTime(),
+                work.getEtc()
         );
     }
 }

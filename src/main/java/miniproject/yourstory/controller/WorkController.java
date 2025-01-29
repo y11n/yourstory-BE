@@ -24,9 +24,6 @@ public class WorkController {
     // 봉사 목록 조회
     @GetMapping
     public ResponseEntity<List<WorkListDTO>> getWorkList() {
-//        List<Work> works = workService.getWorkList();
-//        List<WorkDto> workDTOs = works.stream().map(WorkDto::fromEntity).collect(Collectors.toList());
-//        return ResponseEntity.ok(workDTOs);
         List<WorkListDTO> works = workService.getWorkList();
         return ResponseEntity.ok(works);
     }
@@ -34,8 +31,8 @@ public class WorkController {
     // 봉사 상세 조회
     @GetMapping("/{workId}")
     public ResponseEntity<WorkDto> getWorkDetail(@PathVariable Long workId) {
-        Work work = workService.getWorkDetail(workId);
-        return ResponseEntity.ok(WorkDto.fromEntity(work));
+        WorkDto workDto = workService.getWorkDetail(workId);
+        return ResponseEntity.ok(workDto);
     }
 
     // 봉사 신청
