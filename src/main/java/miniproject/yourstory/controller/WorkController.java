@@ -8,6 +8,8 @@ import miniproject.yourstory.entity.Condition;
 import miniproject.yourstory.entity.Work;
 import miniproject.yourstory.service.WorkService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,8 +39,11 @@ public class WorkController {
 
     // 봉사 신청
     @PostMapping("/{workId}")
-    public ResponseEntity<ConditionDto> applyForWork(@PathVariable Long workId,
-                                                     @RequestParam String username) {
+    public ResponseEntity<ConditionDto> applyForWork(@PathVariable Long workId) {
+        // 로그인한 사용자 username 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
         Condition condition = workService.applyForWork(workId, username);
         return ResponseEntity.ok(ConditionDto.fromEntity(condition));
     }
