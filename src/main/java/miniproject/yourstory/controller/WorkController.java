@@ -50,7 +50,11 @@ public class WorkController {
 
     // 나의 봉사 현황 조회
     @GetMapping("/my-status")
-    public ResponseEntity<List<ConditionDto>> getMyWorkStatus(@RequestParam String username) {
+    public ResponseEntity<List<ConditionDto>> getMyWorkStatus() {
+        // 로그인한 사용자 username 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
         List<Condition> conditions = workService.getMyWorkStatus(username);
         List<ConditionDto> conditionDTOs = conditions.stream()
                 .map(ConditionDto::fromEntity)
