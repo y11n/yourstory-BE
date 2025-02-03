@@ -3,6 +3,7 @@ package miniproject.yourstory.controller;
 import lombok.RequiredArgsConstructor;
 import miniproject.yourstory.dto.ConditionDto;
 import miniproject.yourstory.dto.WorkDto;
+import miniproject.yourstory.dto.WorkHistoryDTO;
 import miniproject.yourstory.dto.WorkListDTO;
 import miniproject.yourstory.entity.Condition;
 import miniproject.yourstory.entity.Work;
@@ -50,16 +51,13 @@ public class WorkController {
 
     // 나의 봉사 현황 조회
     @GetMapping("/my-status")
-    public ResponseEntity<List<ConditionDto>> getMyWorkStatus() {
+    public ResponseEntity<List<WorkHistoryDTO>> getMyWorkStatus() {
         // 로그인한 사용자 username 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        List<Condition> conditions = workService.getMyWorkStatus(username);
-        List<ConditionDto> conditionDTOs = conditions.stream()
-                .map(ConditionDto::fromEntity)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(conditionDTOs);
+        List<WorkHistoryDTO> history = workService.getMyWorkStatus(username);
+        return ResponseEntity.ok(history);
     }
 
 

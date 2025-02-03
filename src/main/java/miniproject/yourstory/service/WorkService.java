@@ -2,6 +2,7 @@ package miniproject.yourstory.service;
 
 import lombok.RequiredArgsConstructor;
 import miniproject.yourstory.dto.WorkDto;
+import miniproject.yourstory.dto.WorkHistoryDTO;
 import miniproject.yourstory.dto.WorkListDTO;
 import miniproject.yourstory.entity.Condition;
 import miniproject.yourstory.entity.Member;
@@ -34,7 +35,7 @@ public class WorkService {
                             work.getTitle(),
                             work.getState(),
                             period,
-                            period.months(),
+                            work.getPeriod(),
                             work.getOrg(),
                             work.getDay()
                     );
@@ -68,12 +69,26 @@ public class WorkService {
     }
 
     // 나의 봉사 현황 조회
-    public List<Condition> getMyWorkStatus(String username) {
+    public List<WorkHistoryDTO> getMyWorkStatus(String username) {
         // 회원 정보를 username을 통해 조회
         Member member = memberRepository.findByUsername(username);
 
         // 해당 회원의 봉사 활동 상태 조회
-        return conditionRepository.findByMember(member); // memberId로 조건을 찾습니다.
+        List<Condition> conditions = conditionRepository.findByMember(member); // memberId로 조건을 찾습니다.
+        return conditions.stream().map(condition -> {
+            Work work = condition.getWork();
+            Period period = work.getRecruitmentPeriod();
+            return new WorkHistoryDTO(
+                   work.getId(),
+                   condition.getId(),
+                   work.getTitle(),
+                   period,
+                   work.getPeriod(),
+                   work.getOrg(),
+                   work.getDay(),
+                   work.getPeriod()
+           );
+        }).collect(Collectors.toList());
     }
 
     // 지역/모집 상태/요일 필터링
