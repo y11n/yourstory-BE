@@ -29,7 +29,16 @@ public class Work {
     private int period; // 봉사 기간
 
     @Embedded
-    private Period recruitmentPeriod;
+    private Period recruitmentPeriod; // 모집 기간
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "startDate",
+                    column = @Column(name = "WORK_STARTDATE")),
+            @AttributeOverride(name = "endDate",
+                    column = @Column(name = "WORK_ENDDATE"))
+    })
+    private Period workPeriod; // 봉사 기간
 
     private String org; // 등록 기관
 
