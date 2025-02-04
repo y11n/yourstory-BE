@@ -13,6 +13,8 @@ import miniproject.yourstory.repository.MemberRepository;
 import miniproject.yourstory.repository.WorkRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +65,6 @@ public class WorkService {
         Condition condition = new Condition();
         condition.setWork(work);
         condition.setMember(member);
-        condition.setPeriod(work.getPeriod());
         return conditionRepository.save(condition);
     }
 
@@ -85,7 +86,7 @@ public class WorkService {
                    work.getWorkPeriod().months(),
                    work.getOrg(),
                    work.getDay(),
-                   work.getPeriod()
+                   ChronoUnit.DAYS.between(condition.getCreatedAt(), LocalDateTime.now())+1
            );
         }).collect(Collectors.toList());
     }

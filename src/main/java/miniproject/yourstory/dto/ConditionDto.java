@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import miniproject.yourstory.entity.Condition;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +17,7 @@ public class ConditionDto {
     private Long id;
     private Long workId;
     private Long memberId;
-    private int period;
+    private LocalDateTime createdAt;
 
     // Condition 엔티티를 ConditionDTO로 변환하는 메서드
     public static ConditionDto fromEntity(Condition condition) {
@@ -23,7 +25,7 @@ public class ConditionDto {
                 condition.getId(),
                 condition.getWork().getId(),
                 condition.getId(),
-                condition.getPeriod()
+                condition.getCreatedAt()
         );
     }
 }
