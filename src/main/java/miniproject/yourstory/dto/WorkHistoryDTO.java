@@ -18,5 +18,5 @@ public class WorkHistoryDTO {
     private int period;
     private String org;
     private String day;
-    private int elapsedTime;
+    private int elapsedDate;
 }

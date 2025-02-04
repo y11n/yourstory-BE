@@ -1,7 +1,7 @@
 package miniproject.yourstory.service;
 
 import lombok.RequiredArgsConstructor;
-import miniproject.yourstory.dto.WorkDto;
+import miniproject.yourstory.dto.WorkDTO;
 import miniproject.yourstory.dto.WorkHistoryDTO;
 import miniproject.yourstory.dto.WorkListDTO;
 import miniproject.yourstory.entity.Condition;
@@ -29,13 +29,12 @@ public class WorkService {
         // 개월 수 계산
         return workRepository.findAll().stream()
                 .map(work -> {
-                    Period period = work.getRecruitmentPeriod();
                     return new WorkListDTO(
                             work.getId(),
                             work.getTitle(),
                             work.getState(),
-                            period,
-                            work.getPeriod(),
+                            work.getRecruitmentPeriod(),
+                            work.getWorkPeriod().months(),
                             work.getOrg(),
                             work.getDay()
                     );
@@ -43,10 +42,10 @@ public class WorkService {
     }
 
     // 봉사 상세 조회
-    public WorkDto getWorkDetail(Long workId) {
+    public WorkDTO getWorkDetail(Long workId) {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new RuntimeException("Work not found with ID: " + workId));
-        return WorkDto.fromEntity(work);
+        return WorkDTO.fromEntity(work);
     }
 
     // 봉사 신청
@@ -83,7 +82,7 @@ public class WorkService {
                    condition.getId(),
                    work.getTitle(),
                    period,
-                   work.getPeriod(),
+                   work.getWorkPeriod().months(),
                    work.getOrg(),
                    work.getDay(),
                    work.getPeriod()

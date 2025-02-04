@@ -2,7 +2,7 @@ package miniproject.yourstory.controller;
 
 import lombok.RequiredArgsConstructor;
 import miniproject.yourstory.dto.ConditionDto;
-import miniproject.yourstory.dto.WorkDto;
+import miniproject.yourstory.dto.WorkDTO;
 import miniproject.yourstory.dto.WorkHistoryDTO;
 import miniproject.yourstory.dto.WorkListDTO;
 import miniproject.yourstory.entity.Condition;
@@ -33,8 +33,8 @@ public class WorkController {
 
     // 봉사 상세 조회
     @GetMapping("/{workId}")
-    public ResponseEntity<WorkDto> getWorkDetail(@PathVariable Long workId) {
-        WorkDto workDto = workService.getWorkDetail(workId);
+    public ResponseEntity<WorkDTO> getWorkDetail(@PathVariable Long workId) {
+        WorkDTO workDto = workService.getWorkDetail(workId);
         return ResponseEntity.ok(workDto);
     }
 
@@ -63,12 +63,12 @@ public class WorkController {
 
     // 지역/모집 상태/요일 필터링
     @GetMapping("/list")
-    public ResponseEntity<List<WorkDto>> filterWorkList(@RequestParam(required = false) String sort,
+    public ResponseEntity<List<WorkDTO>> filterWorkList(@RequestParam(required = false) String sort,
                                                         @RequestParam(required = false) String dayOfWeek,
                                                         @RequestParam(required = false) String regions,
                                                         @RequestParam(required = false) String recruitmentStatus) {
         List<Work> works = workService.filterWorkList(dayOfWeek, regions, recruitmentStatus);
-        List<WorkDto> workDTOs = works.stream().map(WorkDto::fromEntity).collect(Collectors.toList());
+        List<WorkDTO> workDTOs = works.stream().map(WorkDTO::fromEntity).collect(Collectors.toList());
         return ResponseEntity.ok(workDTOs);
     }
 }

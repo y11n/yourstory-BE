@@ -12,7 +12,7 @@ import miniproject.yourstory.entity.Work;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkDto {
+public class WorkDTO {
 
     private Long id;
     private String title;
@@ -29,13 +29,13 @@ public class WorkDto {
     private String etc;
 
     // Work 엔티티를 WorkDTO로 변환하는 메서드
-    public static WorkDto fromEntity(Work work) {
-        return new WorkDto(
+    public static WorkDTO fromEntity(Work work) {
+        return new WorkDTO(
                 work.getId(),
                 work.getTitle(),
                 work.getState(),
                 work.getRecruitmentPeriod(),
-                work.getRecruitmentPeriod().months(),
+                work.getWorkPeriod().months(),
                 work.getOrg(),
                 work.getDay(),
                 work.getPlace(),
