@@ -3,6 +3,10 @@ package miniproject.yourstory.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -10,6 +14,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Table(name = "volunteer_condition")
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Condition {
 
     @Id
@@ -24,7 +29,8 @@ public class Condition {
     @JoinColumn(name = "work_id", nullable = false) // FK - 봉사활동 ID
     private Work work;
 
-    private int period; // 시작 후 기간
-
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
 
 }
